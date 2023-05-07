@@ -1,0 +1,78 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://player.gd" type="Script" id=1]
+[ext_resource path="res://BaseChar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Sprites/Sprites/Player/Jump3.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Sprites/Player/Run7.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Sprites/Player/Jump1.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Idle0.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Sprites/Player/Run2.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Sprites/Player/Run3.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Sprites/Player/Jump4.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Sprites/Player/Jump0.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Sprites/Player/Run1.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/Sprites/Player/Run0.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Sprites/Player/Run4.png" type="Texture" id=13]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "fall",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 11 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 13 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "walk",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 11 ), ExtResource( 12 ), ExtResource( 12 ), ExtResource( 12 ) ],
+"loop": true,
+"name": "Dash",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 19.9676
+
+[sub_resource type="Animation" id=3]
+resource_name = "Took_hit"
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.5, 0.6, 0.7, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, true, false, false, true, true ]
+}
+
+[node name="player" instance=ExtResource( 2 )]
+collision_mask = 6
+script = ExtResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="." index="0"]
+frames = SubResource( 1 )
+animation = "Dash"
+speed_scale = 1.2
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
+position = Vector2( 0.891907, 2.67572 )
+shape = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2"]
+anims/Took_hit = SubResource( 3 )
